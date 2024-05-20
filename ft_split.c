@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-int	ft_count_words(char const *s, char c)
+static int	ft_count_words(char const *s, char c)
 {
 	int	n;
 	int	words;
@@ -36,7 +36,7 @@ int	ft_count_words(char const *s, char c)
 	return (words);
 }
 
-int	alloc(int idx_ptr, int size, char const *s, char **strs)
+static int	alloc(int idx_ptr, int size, char const *s, char **strs)
 {
 	int	n;
 
@@ -53,7 +53,7 @@ int	alloc(int idx_ptr, int size, char const *s, char **strs)
 	return (1);
 }
 
-void	ft_alloc_words(char const *s, char c, char **strs)
+static void	ft_alloc_words(char const *s, char c, char **strs)
 {
 	int	idx_ptr;
 	int	n;

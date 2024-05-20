@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-int	ft_is_set(char c, char const *set)
+static int	ft_is_set(char c, char const *set)
 {
 	int	n;
 
@@ -26,7 +26,7 @@ int	ft_is_set(char c, char const *set)
 	return (0);
 }
 
-int	ft_count_sets(char const *s1, char const *set)
+static int	ft_count_sets(char const *s1, char const *set)
 {
 	int	n;
 	int	count;
