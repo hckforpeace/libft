@@ -10,7 +10,7 @@ OBJS = $(SRCS:.c=.o)
 OBJS_BONUS = $(BONUS:.c=.o)
 NAME = libft.a
 ARC = ar
-OPT = -r
+OPT = -rc
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
