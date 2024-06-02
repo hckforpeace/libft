@@ -36,14 +36,32 @@ static int	ft_count_words(char const *s, char c)
 	return (words);
 }
 
-static int	alloc(int idx_ptr, int size, char const *s, char **strs)
+static void	ft_crash_free(char **strs, int to_free)
+{
+	if (to_free < 0)
+	{
+		free(strs);
+		return ;
+	}
+	while (to_free >= 0)
+	{
+		free(strs[to_free]);
+		to_free--;
+	}
+	free(strs);
+}
+
+static int	ft_alloc(int idx_ptr, int size, char const *s, char **strs)
 {
 	int	n;
 
 	n = 0;
 	strs[idx_ptr] = (char *)malloc(sizeof(char) * (size + 1));
 	if (strs[idx_ptr] == NULL)
+	{
+		ft_crash_free(strs, idx_ptr - 1);
 		return (0);
+	}
 	while (n < size)
 	{
 		strs[idx_ptr][n] = s[n];
@@ -53,7 +71,7 @@ static int	alloc(int idx_ptr, int size, char const *s, char **strs)
 	return (1);
 }
 
-static void	ft_alloc_words(char const *s, char c, char **strs)
+static int	ft_alloc_words(char const *s, char c, char **strs)
 {
 	int	idx_ptr;
 	int	n;
@@ -66,7 +84,8 @@ static void	ft_alloc_words(char const *s, char c, char **strs)
 	{
 		if (n != 0 && s[n] == c && s[n - 1] != c)
 		{
-			alloc(idx_ptr, len, &s[n - len], strs);
+			if (!ft_alloc(idx_ptr, len, &s[n - len], strs))
+				return (0);
 			idx_ptr++;
 			len = 0;
 		}
@@ -75,20 +94,41 @@ static void	ft_alloc_words(char const *s, char c, char **strs)
 		n++;
 	}
 	if (s[n - 1] != c)
-		alloc(idx_ptr, len, &s[n - len], strs);
+		return (ft_alloc(idx_ptr, len, &s[n - len], strs));
+	return (1);
 }
 
 char	**ft_split(char const *s, char c)
 {
 	char	**strs;
 	int		words;
+	int		ret;
 
+	ret = 1;
 	words = ft_count_words(s, c);
 	strs = (char **)malloc(sizeof(char *) * (words + 1));
 	if (strs == NULL)
 		return (NULL);
 	if (words != 0)
-		ft_alloc_words(s, c, strs);
+		ret = ft_alloc_words(s, c, strs);
+	if (!ret)
+		return (NULL);
 	strs[words] = 0;
 	return (strs);
 }
+/* #include <stdio.h>
+
+int	main()
+{
+	char **strs;
+	int i = 0;
+	char *str = "tototot otototo tototo toototot tototo totoot tototo";
+	char sep = ' ';
+	strs = ft_split(str, sep);
+	while (strs[i])
+	{
+		printf("%s\n", strs[i]);
+		i++;
+	}
+	return (0);
+} */

@@ -26,37 +26,80 @@ static int	ft_is_set(char c, char const *set)
 	return (0);
 }
 
-static int	ft_count_sets(char const *s1, char const *set)
+static int	ft_count_start(char const *s1, char const *set)
 {
-	int	n;
 	int	count;
 
 	count = 0;
-	n = 0;
-	while (s1[n])
+	while (*s1)
 	{
-		if (ft_is_set(s1[n], set))
+		if (ft_is_set(*s1, set))
 			count++;
-		n++;
+		else
+			break ;
+		s1++;
 	}
 	return (count);
+}
+
+static int	ft_count_end(char const *s1, char const *set, int len)
+{
+	int	count;
+	int	i;
+
+	i = 0;
+	count = 0;
+	while (i < len)
+	{
+		if (ft_is_set(*s1, set))
+			count++;
+		else
+			break ;
+		i++;
+		s1--;
+	}
+	return (count);
+}
+
+static char	*ft_strncpy(char *dest, const char *src, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (src[i] && i < n)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	while (i < n)
+	{
+		dest[i] = '\0';
+		i++;
+	}
+	return (dest);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	int		len;
 	char	*str;
-	int		i;
+	int		len_after;
 
-	i = 0;
-	len = ft_strlen(s1) - ft_count_sets(s1, set);
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	if (str == NULL)
+	if (!s1)
 		return (NULL);
-	*str = '\0';
-	while (ft_is_set(s1[i], set))
-		i++;
-	if (len != 0)
-		ft_strncpy(str, &s1[i], len);
+	len = ft_strlen(s1);
+	if (len == ft_count_end(&s1[len - 1], set, len))
+		len_after = 0;
+	else
+		len_after = len - (ft_count_end(&s1[len - 1], set, len)
+				+ ft_count_start(s1, set));
+	str = (char *)malloc(sizeof(char) * (len_after + 1));
+	if (!str)
+		return (NULL);
+	str[0] = '\0';
+	if (len_after == 0)
+		return (str);
+	ft_strncpy(str, &s1[ft_count_start(s1, set)], len_after);
 	return (str);
 }

@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-static int	count_chars(long n)
+static int	ft_count_chars(long n)
 {
 	int	len;
 
@@ -37,12 +37,12 @@ char	*ft_itoa(int n)
 	int		len;
 	long	num;
 
-	len = count_chars((long)n);
+	len = ft_count_chars((long)n);
 	num = n;
 	str = (char *)malloc(sizeof(char) * (len + 1));
 	if (str == NULL)
 		return (NULL);
-	bzero(str, len + 1);
+	ft_bzero(str, len + 1);
 	len--;
 	if (num < 0)
 	{

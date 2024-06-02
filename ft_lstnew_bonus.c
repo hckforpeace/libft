@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strequ.c                                        :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/15 00:23:29 by pierre            #+#    #+#             */
-/*   Updated: 2024/04/15 00:23:29 by pierre           ###   ########.fr       */
+/*   Created: 2024/04/15 00:21:58 by pierre            #+#    #+#             */
+/*   Updated: 2024/04/15 00:21:58 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strequ(char const *s1, char const *s2)
+t_list	*ft_lstnew(void *content)
 {
-	while (*s1 && *s2)
-	{
-		if (*s1 != *s2)
-			return (0);
-		s1++;
-		s2++;
-	}
-	return (1);
+	t_list	*liste;
+
+	liste = (t_list *)malloc(sizeof(t_list));
+	if (!liste)
+		return (NULL);
+	liste->content = content;
+	liste->next = NULL;
+	return (liste);
 }
